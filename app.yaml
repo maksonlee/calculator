@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculator
+spec:
+  selector:
+    matchLabels:
+      app: calculator
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: calculator
+    spec:
+      containers:
+      - name: calculator
+        image: docker.arimacomm.com.tw/test/calculator
+        imagePullPolicy: Always
+        ports:
+        - name: calculator
+          containerPort: 8080
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculator-svc
+  labels:
+    app: calculator
+spec:
+  selector:
+    app: calculator
+  ports:
+    - port: 8080
+      targetPort: 8080
